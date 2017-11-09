@@ -34,9 +34,9 @@ import br.edu.ifspsaocarlos.agenda.data.ContatoDAO;
 import br.edu.ifspsaocarlos.agenda.model.Contato;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-    private ContatoDAO cDAO ;
+    private ContatoDAO cDAO;
     private RecyclerView recyclerView;
 
     private List<Contato> contatos = new ArrayList<>();
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = getIntent();
         handleIntent(intent);
 
-        cDAO= new ContatoDAO(this);
+        cDAO = new ContatoDAO(this);
 
-        empty= (TextView) findViewById(R.id.empty_view);
+        empty = (TextView) findViewById(R.id.empty_view);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity{
 
         setupRecyclerView();
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,13 +117,13 @@ public class MainActivity extends AppCompatActivity{
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.pesqContato).getActionView();
 
-        ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+        ImageView closeButton = (ImageView) searchView.findViewById(R.id.search_close_btn);
 
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText et = (EditText)findViewById(R.id.search_src_text);
+                EditText et = (EditText) findViewById(R.id.search_src_text);
                 if (et.getText().toString().isEmpty())
                     searchView.onActionViewCollapsed();
 
@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity{
                 updateUI(null);
             }
         });
-
 
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -152,7 +151,6 @@ public class MainActivity extends AppCompatActivity{
             }
 
 
-
         if (requestCode == 2) {
             if (resultCode == RESULT_OK)
                 showSnackBar(getResources().getString(R.string.contato_alterado));
@@ -164,25 +162,22 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void showSnackBar(String msg) {
-        CoordinatorLayout coordinatorlayout= (CoordinatorLayout)findViewById(R.id.coordlayout);
+        CoordinatorLayout coordinatorlayout = (CoordinatorLayout) findViewById(R.id.coordlayout);
         Snackbar.make(coordinatorlayout, msg,
                 Snackbar.LENGTH_LONG)
                 .show();
     }
 
 
-
-    private void updateUI(String nomeContato)
-    {
+    private void updateUI(String nomeContato) {
 
         contatos.clear();
 
-        if (nomeContato==null) {
+        if (nomeContato == null) {
             contatos.addAll(cDAO.buscaTodosContatos());
             empty.setText(getResources().getString(R.string.lista_vazia));
             fab.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             contatos.addAll(cDAO.buscaContato(nomeContato));
             empty.setText(getResources().getString(R.string.contato_nao_encontrado));
             fab.setVisibility(View.GONE);
@@ -191,7 +186,7 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.getAdapter().notifyDataSetChanged();
 
-        if (recyclerView.getAdapter().getItemCount()==0)
+        if (recyclerView.getAdapter().getItemCount() == 0)
             empty.setVisibility(View.VISIBLE);
         else
             empty.setVisibility(View.GONE);
@@ -251,7 +246,6 @@ public class MainActivity extends AppCompatActivity{
                 }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
-
 
 
         };

@@ -35,7 +35,7 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
 
     @Override
     public void onBindViewHolder(ContatoViewHolder holder, int position) {
-        Contato contato  = contatos.get(position) ;
+        Contato contato = contatos.get(position);
         holder.nome.setText(contato.getNome());
     }
 
@@ -50,12 +50,12 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
     }
 
 
-    public  class ContatoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ContatoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView nome;
 
         ContatoViewHolder(View view) {
             super(view);
-            nome = (TextView)view.findViewById(R.id.nome);
+            nome = (TextView) view.findViewById(R.id.nome);
             view.setOnClickListener(this);
         }
 

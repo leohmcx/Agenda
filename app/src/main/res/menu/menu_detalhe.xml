@@ -3,14 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/salvarContato"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_done"
         android:title="@string/salvar"
-        />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/delContato"
-        app:showAsAction="always"
         android:icon="@drawable/ic_account_remove"
         android:title="@string/excluir"
-        />
+        app:showAsAction="always" />
 </menu>
