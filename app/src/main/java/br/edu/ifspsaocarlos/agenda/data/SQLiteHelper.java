@@ -19,6 +19,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
             KEY_EMAIL + " TEXT, " +
             KEY_FAVORITE + " INTEGER);";
 
+
     SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
