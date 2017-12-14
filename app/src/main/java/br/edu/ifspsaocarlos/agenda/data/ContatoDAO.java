@@ -1,16 +1,12 @@
 package br.edu.ifspsaocarlos.agenda.data;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import br.edu.ifspsaocarlos.agenda.model.Contato;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ContatoDAO {
     private SQLiteDatabase database;
@@ -23,27 +19,19 @@ public class ContatoDAO {
     public List<Contato> buscaTodosContatos() {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
-
         Cursor cursor;
-
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL};
-
-        cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, null, null,
-                null, null, SQLiteHelper.KEY_NAME);
-
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
+        cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, null, null,null, null, SQLiteHelper.KEY_NAME);
         while (cursor.moveToNext()) {
             Contato contato = new Contato();
             contato.setId(cursor.getInt(0));
             contato.setNome(cursor.getString(1));
             contato.setFone(cursor.getString(2));
             contato.setEmail(cursor.getString(3));
+            contato.setFavorito(cursor.getInt(4));
             contatos.add(contato);
-
-
         }
         cursor.close();
-
-
         database.close();
         return contatos;
     }
@@ -51,30 +39,43 @@ public class ContatoDAO {
     public List<Contato> buscaContato(String nome) {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
-
         Cursor cursor;
-
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
         String where = SQLiteHelper.KEY_NAME + " like ?";
         String[] argWhere = new String[]{nome + "%"};
-
-
-        cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,
-                null, null, SQLiteHelper.KEY_NAME);
-
-
+        cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
         while (cursor.moveToNext()) {
             Contato contato = new Contato();
             contato.setId(cursor.getInt(0));
             contato.setNome(cursor.getString(1));
             contato.setFone(cursor.getString(2));
             contato.setEmail(cursor.getString(3));
+            contato.setFavorito(cursor.getInt(4));
             contatos.add(contato);
-
-
         }
         cursor.close();
+        database.close();
+        return contatos;
+    }
 
+    public List<Contato> buscaContatoFavorito(int favorito) {
+        database = dbHelper.getReadableDatabase();
+        List<Contato> contatos = new ArrayList<>();
+        Cursor cursor;
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
+        String where = SQLiteHelper.KEY_FAVORITE + " = ? ";
+        String[] argWhere = new String[]{favorito + ""};
+        cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
+        while (cursor.moveToNext()) {
+            Contato contato = new Contato();
+            contato.setId(cursor.getInt(0));
+            contato.setNome(cursor.getString(1));
+            contato.setFone(cursor.getString(2));
+            contato.setEmail(cursor.getString(3));
+            contato.setFavorito(cursor.getInt(4));
+            contatos.add(contato);
+        }
+        cursor.close();
         database.close();
         return contatos;
     }
@@ -85,21 +86,17 @@ public class ContatoDAO {
         values.put(SQLiteHelper.KEY_NAME, c.getNome());
         values.put(SQLiteHelper.KEY_FONE, c.getFone());
         values.put(SQLiteHelper.KEY_EMAIL, c.getEmail());
-
+        values.put(SQLiteHelper.KEY_FAVORITE, c.getFavorito());
         if (c.getId() > 0)
-            database.update(SQLiteHelper.DATABASE_TABLE, values, SQLiteHelper.KEY_ID + "="
-                    + c.getId(), null);
+            database.update(SQLiteHelper.DATABASE_TABLE, values, SQLiteHelper.KEY_ID + "=" + c.getId(), null);
         else
             database.insert(SQLiteHelper.DATABASE_TABLE, null, values);
-
         database.close();
     }
 
-
     public void apagaContato(Contato c) {
         database = dbHelper.getWritableDatabase();
-        database.delete(SQLiteHelper.DATABASE_TABLE, SQLiteHelper.KEY_ID + "="
-                + c.getId(), null);
+        database.delete(SQLiteHelper.DATABASE_TABLE, SQLiteHelper.KEY_ID + "=" + c.getId(), null);
         database.close();
     }
 }

@@ -8,8 +8,17 @@ public class Contato implements Serializable {
     private String nome;
     private String fone;
     private String email;
+    private int favorito;
 
     public Contato() {
+    }
+
+    public int getFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(int favorito) {
+        this.favorito = favorito;
     }
 
     public long getId() {

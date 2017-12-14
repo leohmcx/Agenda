@@ -19,11 +19,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
 
     private FloatingActionButton fab;
+    private int filtroFavorito;
 
     @Override
     public void onBackPressed() {
         if (!searchView.isIconified()) {
 
             searchView.onActionViewCollapsed();
-            updateUI(null);
+            updateUI(null, 0);
         } else {
             super.onBackPressed();
         }
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchView.clearFocus();
-            updateUI(query);
+            updateUI(query, 0);
 
         }
     }
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        updateUI(null);
+        updateUI(null, 0);
     }
 
     @Override
@@ -128,16 +133,12 @@ public class MainActivity extends AppCompatActivity {
                     searchView.onActionViewCollapsed();
 
                 searchView.setQuery("", false);
-                updateUI(null);
+                updateUI(null, 0);
             }
         });
 
-
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         searchView.setIconifiedByDefault(true);
-
-
         return true;
     }
 
@@ -147,9 +148,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1)
             if (resultCode == RESULT_OK) {
                 showSnackBar(getResources().getString(R.string.contato_adicionado));
-                updateUI(null);
+                updateUI(null, 0);
             }
-
 
         if (requestCode == 2) {
             if (resultCode == RESULT_OK)
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == 3)
                 showSnackBar(getResources().getString(R.string.contato_apagado));
 
-            updateUI(null);
+            updateUI(null, 0);
         }
     }
 
@@ -169,11 +169,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void updateUI(String nomeContato) {
+    private void updateUI(String nomeContato, int favorito) {
 
         contatos.clear();
 
-        if (nomeContato == null) {
+        if (favorito == 1) {
+            contatos.addAll(cDAO.buscaContatoFavorito(favorito));
+        } else if (nomeContato == null) {
             contatos.addAll(cDAO.buscaTodosContatos());
             empty.setText(getResources().getString(R.string.lista_vazia));
             fab.setVisibility(View.VISIBLE);
@@ -181,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             contatos.addAll(cDAO.buscaContato(nomeContato));
             empty.setText(getResources().getString(R.string.contato_nao_encontrado));
             fab.setVisibility(View.GONE);
-
         }
 
         recyclerView.getAdapter().notifyDataSetChanged();
@@ -191,6 +192,24 @@ public class MainActivity extends AppCompatActivity {
         else
             empty.setVisibility(View.GONE);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.pesqFavoritos:
+                if (filtroFavorito == 0) {
+                    updateUI(null, 1);
+                    item.setIcon(getResources().getDrawable(R.drawable.not_favorite));
+                    filtroFavorito = 1;
+                } else {
+                    updateUI(null, 0);
+                    item.setIcon(getResources().getDrawable(R.drawable.favorite_user));
+                    filtroFavorito = 0;
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupRecyclerView() {
@@ -206,6 +225,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        adapter.setClickListenerFavoritar(new ContatoAdapter.ItemClickListenerFavoritar() {
+            @Override
+            public void onItemClickFavoritar(int position) {
+                final Contato contato = contatos.get(position);
+
+                if (contato.getFavorito() == 0) {
+                    contato.setFavorito(1);
+                } else {
+                    contato.setFavorito(0);
+                }
+                Log.i("teste", String.valueOf(contato.getFavorito()));
+                cDAO.salvaContato(contato);
+                updateUI(null, 0);
+
+            }
+        });
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -221,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     contatos.remove(viewHolder.getAdapterPosition());
                     recyclerView.getAdapter().notifyDataSetChanged();
                     showSnackBar(getResources().getString(R.string.contato_apagado));
-                    updateUI(null);
+                    updateUI(null, 0);
                 }
             }
 

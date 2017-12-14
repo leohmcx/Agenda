@@ -16,6 +16,7 @@ import br.edu.ifspsaocarlos.agenda.R;
 public class DetalheActivity extends AppCompatActivity {
     private Contato c;
     private ContatoDAO cDAO;
+    private int favoritar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class DetalheActivity extends AppCompatActivity {
             foneText.setText(c.getFone());
             EditText emailText = (EditText) findViewById(R.id.editTextEmail);
             emailText.setText(c.getEmail());
+            this.favoritar = c.getFavorito();
             int pos = c.getNome().indexOf(" ");
             if (pos == -1)
                 pos = c.getNome().length();
@@ -78,13 +80,15 @@ public class DetalheActivity extends AppCompatActivity {
         String fone = ((EditText) findViewById(R.id.editTextFone)).getText().toString();
         String email = ((EditText) findViewById(R.id.editTextEmail)).getText().toString();
 
-        if (c == null)
+        if (c == null) {
             c = new Contato();
-
+            c.setFavorito(0);
+        }
 
         c.setNome(name);
         c.setFone(fone);
         c.setEmail(email);
+        c.setFavorito(favoritar);
 
         cDAO.salvaContato(c);
         Intent resultIntent = new Intent();

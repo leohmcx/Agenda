@@ -7,5 +7,10 @@
         android:title="@string/nome_do_contato"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/pesqFavoritos"
+        android:icon="@drawable/favorite_user"
+        android:title="@string/buscar_favoritos"
+        app:showAsAction="ifRoom" />
 </menu>
 
