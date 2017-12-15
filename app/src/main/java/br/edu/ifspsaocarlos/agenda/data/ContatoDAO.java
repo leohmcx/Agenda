@@ -20,7 +20,7 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, null, null,null, null, SQLiteHelper.KEY_NAME);
         while (cursor.moveToNext()) {
             Contato contato = new Contato();
@@ -29,6 +29,7 @@ public class ContatoDAO {
             contato.setFone(cursor.getString(2));
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
+            contato.setCelular(cursor.getString(5));
             contatos.add(contato);
         }
         cursor.close();
@@ -40,7 +41,7 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
         String where = SQLiteHelper.KEY_NAME + " like ?";
         String[] argWhere = new String[]{nome + "%"};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
@@ -51,6 +52,7 @@ public class ContatoDAO {
             contato.setFone(cursor.getString(2));
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
+            contato.setCelular(cursor.getString(5));
             contatos.add(contato);
         }
         cursor.close();
@@ -62,7 +64,7 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
         String where = SQLiteHelper.KEY_FAVORITE + " = ? ";
         String[] argWhere = new String[]{favorito + ""};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
@@ -73,6 +75,7 @@ public class ContatoDAO {
             contato.setFone(cursor.getString(2));
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
+            contato.setCelular(cursor.getString(5));
             contatos.add(contato);
         }
         cursor.close();
@@ -87,6 +90,7 @@ public class ContatoDAO {
         values.put(SQLiteHelper.KEY_FONE, c.getFone());
         values.put(SQLiteHelper.KEY_EMAIL, c.getEmail());
         values.put(SQLiteHelper.KEY_FAVORITE, c.getFavorito());
+        values.put(SQLiteHelper.KEY_CELULAR, c.getCelular());
         if (c.getId() > 0)
             database.update(SQLiteHelper.DATABASE_TABLE, values, SQLiteHelper.KEY_ID + "=" + c.getId(), null);
         else

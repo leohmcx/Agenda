@@ -9,6 +9,7 @@ public class Contato implements Serializable {
     private String fone;
     private String email;
     private int favorito;
+    private String celular;
 
     public Contato() {
     }
@@ -19,6 +20,14 @@ public class Contato implements Serializable {
 
     public void setFavorito(int favorito) {
         this.favorito = favorito;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public long getId() {

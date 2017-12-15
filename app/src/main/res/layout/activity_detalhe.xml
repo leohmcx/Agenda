@@ -60,6 +60,18 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></EditText>
+
+        <TextView
+            android:id="@+id/textViewCelular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/celular"></TextView>
+
+        <EditText
+            android:id="@+id/editTextCeluar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></EditText>
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
 

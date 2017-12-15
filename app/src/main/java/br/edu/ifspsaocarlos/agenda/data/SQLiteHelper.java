@@ -11,13 +11,15 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String KEY_FONE = "fone";
     static final String KEY_EMAIL = "email";
     static final String KEY_FAVORITE = "favorito";
+    static final String KEY_CELULAR = "celular";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_CREATE = "CREATE TABLE "+ DATABASE_TABLE +" (" +
             KEY_ID  +  " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             KEY_NAME + " TEXT NOT NULL, " +
             KEY_FONE + " TEXT, "  +
             KEY_EMAIL + " TEXT, " +
-            KEY_FAVORITE + " INTEGER);";
+            KEY_FAVORITE + " INTEGER," +
+            KEY_CELULAR + " TEXT);";
 
 
     SQLiteHelper(Context context) {
