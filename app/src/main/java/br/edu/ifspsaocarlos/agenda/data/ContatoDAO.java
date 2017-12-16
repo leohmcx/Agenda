@@ -20,7 +20,7 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR, SQLiteHelper.KEY_DIAANIVERSARIO, SQLiteHelper.KEY_MESANIVERSARIO};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, null, null,null, null, SQLiteHelper.KEY_NAME);
         while (cursor.moveToNext()) {
             Contato contato = new Contato();
@@ -30,6 +30,8 @@ public class ContatoDAO {
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
             contato.setCelular(cursor.getString(5));
+            contato.setDiaAniversario(cursor.getInt(6));
+            contato.setMesAniversario(cursor.getInt(7));
             contatos.add(contato);
         }
         cursor.close();
@@ -41,9 +43,9 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
-        String where = SQLiteHelper.KEY_NAME + " like ?";
-        String[] argWhere = new String[]{nome + "%"};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR, SQLiteHelper.KEY_DIAANIVERSARIO, SQLiteHelper.KEY_MESANIVERSARIO};
+        String where = SQLiteHelper.KEY_NAME + " like ? OR " + SQLiteHelper.KEY_EMAIL + " like ?";
+        String[] argWhere = new String[]{nome + "%", nome + "%"};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
         while (cursor.moveToNext()) {
             Contato contato = new Contato();
@@ -53,6 +55,8 @@ public class ContatoDAO {
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
             contato.setCelular(cursor.getString(5));
+            contato.setDiaAniversario(cursor.getInt(6));
+            contato.setMesAniversario(cursor.getInt(7));
             contatos.add(contato);
         }
         cursor.close();
@@ -64,7 +68,7 @@ public class ContatoDAO {
         database = dbHelper.getReadableDatabase();
         List<Contato> contatos = new ArrayList<>();
         Cursor cursor;
-        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR};
+        String[] cols = new String[]{SQLiteHelper.KEY_ID, SQLiteHelper.KEY_NAME, SQLiteHelper.KEY_FONE, SQLiteHelper.KEY_EMAIL, SQLiteHelper.KEY_FAVORITE, SQLiteHelper.KEY_CELULAR, SQLiteHelper.KEY_DIAANIVERSARIO, SQLiteHelper.KEY_MESANIVERSARIO};
         String where = SQLiteHelper.KEY_FAVORITE + " = ? ";
         String[] argWhere = new String[]{favorito + ""};
         cursor = database.query(SQLiteHelper.DATABASE_TABLE, cols, where, argWhere,null, null, SQLiteHelper.KEY_NAME);
@@ -76,6 +80,8 @@ public class ContatoDAO {
             contato.setEmail(cursor.getString(3));
             contato.setFavorito(cursor.getInt(4));
             contato.setCelular(cursor.getString(5));
+            contato.setDiaAniversario(cursor.getInt(6));
+            contato.setMesAniversario(cursor.getInt(7));
             contatos.add(contato);
         }
         cursor.close();
@@ -91,6 +97,8 @@ public class ContatoDAO {
         values.put(SQLiteHelper.KEY_EMAIL, c.getEmail());
         values.put(SQLiteHelper.KEY_FAVORITE, c.getFavorito());
         values.put(SQLiteHelper.KEY_CELULAR, c.getCelular());
+        values.put(SQLiteHelper.KEY_DIAANIVERSARIO, c.getDiaAniversario());
+        values.put(SQLiteHelper.KEY_MESANIVERSARIO, c.getMesAniversario());
         if (c.getId() > 0)
             database.update(SQLiteHelper.DATABASE_TABLE, values, SQLiteHelper.KEY_ID + "=" + c.getId(), null);
         else

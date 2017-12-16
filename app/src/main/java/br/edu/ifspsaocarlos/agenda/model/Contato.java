@@ -10,6 +10,8 @@ public class Contato implements Serializable {
     private String email;
     private int favorito;
     private String celular;
+    private int diaAniversario;
+    private int mesAniversario;
 
     public Contato() {
     }
@@ -28,6 +30,22 @@ public class Contato implements Serializable {
 
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public int getDiaAniversario() {
+        return diaAniversario;
+    }
+
+    public void setDiaAniversario(int diaAniversario) {
+        this.diaAniversario = diaAniversario;
+    }
+
+    public int getMesAniversario() {
+        return mesAniversario;
+    }
+
+    public void setMesAniversario(int mesAniversario) {
+        this.mesAniversario = mesAniversario;
     }
 
     public long getId() {

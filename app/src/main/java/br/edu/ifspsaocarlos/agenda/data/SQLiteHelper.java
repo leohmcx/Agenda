@@ -12,6 +12,8 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String KEY_EMAIL = "email";
     static final String KEY_FAVORITE = "favorito";
     static final String KEY_CELULAR = "celular";
+    static final String KEY_DIAANIVERSARIO = "dia";
+    static final String KEY_MESANIVERSARIO = "mes";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_CREATE = "CREATE TABLE "+ DATABASE_TABLE +" (" +
             KEY_ID  +  " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -19,7 +21,9 @@ class SQLiteHelper extends SQLiteOpenHelper {
             KEY_FONE + " TEXT, "  +
             KEY_EMAIL + " TEXT, " +
             KEY_FAVORITE + " INTEGER," +
-            KEY_CELULAR + " TEXT);";
+            KEY_CELULAR + " TEXT," +
+            KEY_DIAANIVERSARIO + " INTEGER," +
+            KEY_MESANIVERSARIO + " INTEGER);";
 
 
     SQLiteHelper(Context context) {
